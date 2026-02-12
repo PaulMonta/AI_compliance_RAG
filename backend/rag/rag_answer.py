@@ -9,7 +9,7 @@ EMBED_MODEL = "text-embedding-3-small"
 def embed_query(query):
     resp = client.embeddings.create(model=EMBED_MODEL, input=query)
     vectors = [d.embedding for d in resp.data]
-    vec = np.array(vectors, dtypes = "float32")
+    vec = np.array(vectors, dtype="float32")
     faiss.normalize_L2(vec)
     return vec
 
@@ -18,7 +18,7 @@ def retrieve(query, index, chunks, k=4):
     _, ids = index.search(qvec, k)
     results = []
     for i in ids[0]:
-        if i != 1:
+        if i != -1:
             results.append(chunks[i])
 
     return results
