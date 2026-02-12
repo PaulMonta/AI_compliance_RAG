@@ -3,7 +3,7 @@ import faiss
 from openai import OpenAI
 
 client = OpenAI()
-CHAT_MODEL = "gpt-5.2"
+CHAT_MODEL = "gpt-4o-mini"
 EMBED_MODEL = "text-embedding-3-small"
 
 def embed_query(query):
