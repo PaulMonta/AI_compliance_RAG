@@ -1,13 +1,62 @@
-# AI Agent - RAG Insurance Bot 🤖
+# 🤖 AI Agent - RAG Insurance Bot
 
-Projet de mise en pratique pour le rôle de AI Engineer. Ce bot utilise le RAG (Retrieval-Augmented Generation) pour répondre à des questions sur des polices d'assurance à partir de documents PDF.
+**Assistant intelligent exploitant la puissance du RAG (Retrieval-Augmented Generation) pour transformer des documents d'assurance complexes en réponses claires et actionnables.**
+
+---
+
+## 📸 Aperçu du Projet
+
+### Interface Utilisateur (React)
+L'interface permet une interaction fluide en langage naturel. Le moteur RAG identifie les concepts clés (ex: "daughter" mappé vers "add a driver") même sans correspondance de mots-clés exacts.
+
+![Interface Chat React](./screenshots/React_RAG.png)
+
+### Documentation API (FastAPI)
+Le backend est conçu de manière industrielle avec une documentation interactive (Swagger) facilitant l'intégration et les tests.
+
+![Documentation API Swagger](./screenshots/api_docs_RAG.png)
+
+---
+
+## 🎯 Points Clés & Objectifs
+Ce projet démontre les piliers fondamentaux attendus pour un rôle de **AI Engineer** :
+
+* **Pipeline RAG complet :** Ingestion automatisée de PDF, segmentation intelligente (chunking) et stockage vectoriel.
+* **Recherche Sémantique :** Utilisation d'embeddings de pointe pour capturer l'intention réelle de l'utilisateur plutôt que de simples mots-clés.
+* **Fiabilité & Sécurité (Guardrails) :** Le bot suit des instructions strictes pour ne répondre qu'à partir du contexte fourni, évitant ainsi les hallucinations et garantissant la conformité métier.
+* **Architecture Découplée :** Séparation propre entre le moteur IA (FastAPI) et l'interface utilisateur (React) pour une meilleure scalabilité.
+
+---
 
 ## 🛠️ Stack Technique
-- **Backend :** Python 3.11, FastAPI, FAISS, OpenAI API
-- **Frontend :** React + Vite
-- **Concepts :** Chunking, Embeddings, Vector Search
 
-## 🚀 Installation
-1. `python -m venv .venv`
-2. `source .venv/bin/activate` (ou `.venv\Scripts\activate` sur Windows)
-3. `pip install -r backend/requirements.txt`
+| Composant | Technologie |
+| :--- | :--- |
+| **Intelligence Artificielle** | OpenAI API (`gpt-4o-mini`, `text-embedding-3-small`) |
+| **Vector Store** | FAISS (Facebook AI Similarity Search) |
+| **Backend** | FastAPI (Python 3.11) |
+| **Frontend** | React + Vite |
+| **Traitement de Données** | Tiktoken (Tokenization avec overlap), PyPDF |
+
+---
+
+## 🏗️ Architecture du Système
+
+1.  **Ingestion (`/ingest`) :** Extraction du texte PDF -> Chunking avec Tiktoken (500 tokens, 50 overlap) -> Vectorisation -> Indexation FAISS.
+2.  **Requête (`/chat`) :** Vectorisation de la question -> Recherche des $k=4$ voisins les plus proches -> Augmentation du Prompt avec contexte -> Génération de la réponse via LLM.
+
+---
+
+## 🚀 Installation & Lancement
+
+### 1. Backend
+```powershell
+cd backend
+python -m venv .venv
+# Windows :
+.venv\Scripts\activate
+# Linux/Mac :
+source .venv/bin/activate
+pip install -r requirements.txt
+# Créer un fichier .env avec votre OPENAI_API_KEY
+uvicorn main:app --reload
