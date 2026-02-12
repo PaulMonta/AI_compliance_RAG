@@ -5,7 +5,7 @@ __pycache__/
 
 # Variables d'environnement (Clés API !)
 .env
-
+backend/.env
 # Données et Index (trop lourds pour Git)
 backend/data/*.pdf
 backend/data/*.faiss
