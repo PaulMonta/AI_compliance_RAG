@@ -60,3 +60,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 # Créer un fichier .env avec votre OPENAI_API_KEY
 uvicorn main:app --reload
+
+
+### 2. Frontend
+
+```powershell
+cd frontend
+npm install
+npm run dev
