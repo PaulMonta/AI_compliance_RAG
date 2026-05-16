@@ -7,11 +7,11 @@ def chunk_text(text : str, chunk_tokens : int = 450, overlap_tokens: int = 80):
     chunks = []
     start = 0
     while start < len(tokens):
-        end = start + chunk_tokens
+        end = min( start + chunk_tokens, len(tokens))
         chunk = enc.decode(tokens[start:end])
         chunks.append(chunk)
         start = end - overlap_tokens
-        if start < 0 or end >= len(tokens):
+        if start < 0 or end == len(tokens):
             break
-    
+
     return chunks
