@@ -30,5 +30,4 @@ def load_index(index_path, meta_path):
 
     with open(meta_path, "r", encoding="utf-8") as f:
         meta = json.load(f)
-    
     return index, meta["chunks"]
