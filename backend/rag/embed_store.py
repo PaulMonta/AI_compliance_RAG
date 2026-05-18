@@ -9,8 +9,8 @@ EMBED_MODEL = "text-embedding-3-small"
 def embed_texts(texts):
     resp = client.embeddings.create(model=EMBED_MODEL, input=texts)
     vectors = [d.embedding for d in resp.data]
-    arr = np.array(vectors, dtype="float32")
-    faiss.normalize_L2(arr)
+    arr = np.array(vectors, dtype="float32") # float32 : format natif FAISS, 2x moins de mémoire que float64
+    faiss.normalize_L2(arr) # modifie en place, normalize_L2 retourne None
     return arr
 
 def build_and_save_index(chunks, index_path, meta_path):

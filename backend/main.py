@@ -11,7 +11,7 @@ from rag.rag_answer import retrieve, generate_answer
 
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from contextlib import asynccontextmanager, contextmanager
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 PDF_PATH = os.path.join(DATA_DIR, "knowledge.pdf")
@@ -24,6 +24,20 @@ chunks = None
 class ChatIn(BaseModel):
     message : str
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global index, chunks
+
+    if os.path.exists(INDEX_PATH) and os.path.exists(META_PATH):
+        index, chunks = load_index(INDEX_PATH, META_PATH)
+
+    yield
+
+    index = None
+    chunks = None
+
+app = FastAPI(lifespan=lifespan)
 
 @app.get("/")
 def read_root():
