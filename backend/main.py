@@ -11,12 +11,16 @@ from rag.rag_answer import retrieve, generate_answer
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from contextlib import asynccontextmanager, contextmanager
+from contextlib import asynccontextmanager
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
-PDF_PATH = os.path.join(DATA_DIR, "knowledge.pdf")
 INDEX_PATH = os.path.join(DATA_DIR, "index.faiss")
 META_PATH = os.path.join(DATA_DIR, "chunks.json")
+
+DOCUMENTS = [
+    {"path": os.path.join(DATA_DIR, "eu_ai_act.pdf"), "source": "EU_AI_Act"},
+    {"path": os.path.join(DATA_DIR, "nist_rmf_100.pdf"), "source": "NIST_RMF"},
+]
 
 index = None
 chunks = None
@@ -41,15 +45,20 @@ app = FastAPI(lifespan=lifespan)
 
 @app.get("/")
 def read_root():
-    return {"status": "online", "message": "Bienvenue sur l'API RAG Assurance !"}
+    return {"status": "online", "message": "Welcome to the RAG AI Regulation Assistant !"}
 
 @app.post("/ingest")
 def ingest():
     global index, chunks
+    all_chunks = []
 
-    text = pdf_to_text(PDF_PATH)
-    chunks = chunk_text(text)
-    build_and_save_index(chunks, INDEX_PATH, META_PATH)
+    for doc in DOCUMENTS:
+        text = pdf_to_text(doc["path"])
+        source = doc["source"] #TODO : utiliser la source pour les citations dans les réponses
+        doc_chunks = chunk_text(text)
+        all_chunks.extend(doc_chunks)
+
+    build_and_save_index(all_chunks, INDEX_PATH, META_PATH)
     index, chunks = load_index(INDEX_PATH, META_PATH)
 
     return {"status": "ok", "chunks": len(chunks)}
