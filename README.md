@@ -13,6 +13,12 @@ Currently covers:
 
 ---
 
+## 📸 Demo
+
+![Demo](./screenshots/demo.png)
+
+---
+
 ## 🏗️ Architecture
 
 1. **Ingestion** — PDF extraction → chunking (450 tokens, 80 overlap) 
