@@ -1,7 +1,15 @@
-# 🤖 AI Agent - RAG Insurance Bot
+# 🤖 AI Compliance RAG Assistant
 
-**Assistant intelligent exploitant la puissance du RAG (Retrieval-Augmented Generation) pour transformer des documents d'assurance complexes en réponses claires et actionnables.**
+A RAG-powered assistant that helps legal, technical, and product teams 
+navigate AI regulations without reading hundreds of pages of legal text.
 
+Currently covers:
+- 🇪🇺 EU AI Act (Regulation 2024/1689)
+- 🇺🇸 NIST AI Risk Management Framework (AI RMF 1.0)
+
+As AI regulation expands globally, companies need to understand their 
+compliance obligations fast. This assistant answers specific questions 
+and cites the exact article and page — so teams can act, not just read.
 ---
 
 ## 📸 Aperçu du Projet
