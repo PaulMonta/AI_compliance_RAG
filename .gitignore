@@ -10,6 +10,5 @@ backend/.env
 backend/data/*.pdf
 backend/data/*.faiss
 backend/data/*.json
-screenshots/
 # Dossiers OS
 .DS_Store
