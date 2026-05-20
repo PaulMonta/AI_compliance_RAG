@@ -1,12 +1,11 @@
-from pypdf import PdfReader
+import pdfplumber
 
-def pdf_to_text(pdf_path : str ) -> str:
-    reader = PdfReader(pdf_path)
-    pages = []
-    for page in reader.pages :
-        pages.append(page.extract_text() or "")
+def pdf_to_text(pdf_path : str ) -> list:
+    with pdfplumber.open(pdf_path) as pdf:
+        pages = []
+        for i, page in enumerate(pdf.pages):
+            pages.append({"text": page.extract_text() or "", "page": i + 1})
 
-    text = "\n".join(pages)
-    text = text.replace("\r", "\n")
-    text = "\n".join([line.strip() for line in text.split("\n") if line.split()])
-    return text
+    for page in pages:
+        page["text"] = "\n".join([line.strip() for line in page["text"].split("\n") if line.split()])
+    return pages
